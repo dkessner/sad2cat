@@ -17,6 +17,9 @@ let videoFullWidth = (deviceType() === "mobile");
 let emotion = "";
 let button = {};
 
+let catimg;
+let catdata;
+
 
 function setup() 
 {
@@ -99,14 +102,22 @@ function draw()
     background(0);
 
     drawVideo();
-    drawEmotion();
-    drawButton();
+
+    if (!catimg)
+    {
+        drawEmotion();
+        drawButton();
+    }
 }
 
 
 function mousePressed()
 {
-    if (button.mouseOver())
+    if (catimg)
+    {
+        catimg = null;
+    }
+    else if (button.mouseOver())
     {
         const caturl = "https://api.thecatapi.com/v1/images/search";
         loadJSON(caturl, getRandomCatPic);
@@ -116,9 +127,16 @@ function mousePressed()
 
 function getRandomCatPic(data)
 {
-    let catdata = data[0];
+    catdata = data[0];
     console.log(catdata);
-    window.open(catdata.url);
+
+    //window.open(catdata.url);
+
+    catimg = createImg(catdata.url, "random cat image", null, () => {
+        textAlign(CENTER);
+        console.log("Loaded: " + catdata.url);
+        catimg.hide();
+    });
 }
 
 
@@ -214,10 +232,24 @@ function drawVideo()
 
     imageMode(CORNER);
 
-    image(capture, 0, 0, captureWidth, captureHeight);
+    if (catimg)
+    {
+        let w = 0, h = 0;
 
-    let positions = tracker.getCurrentPosition();
-    drawBoundingBox(positions);
+        if (catdata.width > catdata.height)
+            w = captureWidth;
+        else
+            h = captureHeight;
+
+        image(catimg, 0, 0, captureWidth, captureHeight);
+    }
+    else
+    {
+        image(capture, 0, 0, captureWidth, captureHeight);
+
+        let positions = tracker.getCurrentPosition();
+        drawBoundingBox(positions);
+    }
 
     pop();
 }
