@@ -107,6 +107,10 @@ function draw()
 
     imageMode(CENTER);
     image(emojis[emotion], width/2, height*.75);
+
+    fill(255);
+    textAlign(CENTER);
+    text(deviceType(), width/2, height*.9);
 }
 
 
@@ -182,4 +186,20 @@ function drawBoundingBox(positions)
     rect(minX, minY, maxX, maxY);
     pop();
 }
+
+
+// from https://attacomsian.com/blog/javascript-detect-mobile-device
+
+function deviceType() 
+{
+    const ua = navigator.userAgent;
+    if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+        return "tablet";
+    }
+    else if (/Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(ua)) {
+        return "mobile";
+    }
+    return "desktop";
+}
+
 
