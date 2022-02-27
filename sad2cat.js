@@ -108,6 +108,12 @@ function draw()
         drawEmotion();
         drawButton();
     }
+    else
+    {
+        fill(255);
+        textAlign(CENTER);
+        text("press 'w' to open photo in a new window", width/2, height*.75);
+    }
 }
 
 
@@ -122,6 +128,13 @@ function mousePressed()
         const caturl = "https://api.thecatapi.com/v1/images/search";
         loadJSON(caturl, getRandomCatPic);
     }
+}
+
+
+function keyPressed()
+{
+    if (catimg && key === 'w')
+        window.open(catdata.url);
 }
 
 
