@@ -12,6 +12,8 @@ let emojis = {};
 let captureWidth = 640;
 let captureHeight = 480;
 
+let videoFullWidth = (deviceType() === "mobile");
+
 
 function setup() 
 {
@@ -91,10 +93,20 @@ function draw()
     background(0);
 
     imageMode(CORNER);
-    image(capture, 0, 0, width, captureHeight * width/captureWidth);
+
+    push();
+
+    if (videoFullWidth === true)
+        image(capture, 0, 0, width, captureHeight * width/captureWidth);
+    else
+    {
+        translate(width/2 - captureWidth/2, 0);
+        image(capture, 0, 0, captureWidth, captureHeight);
+    }
 
     let positions = tracker.getCurrentPosition();
     drawBoundingBox(positions);
+    pop();
 
     if (!classifier) return;
     let cp = tracker.getCurrentParameters();
@@ -181,8 +193,11 @@ function drawBoundingBox(positions)
     noFill();
 
     push();
-    let s = width/captureWidth;
-    scale(s, s);
+    if (videoFullWidth === true)
+    {
+        let s = width/captureWidth;
+        scale(s, s);
+    }
     rectMode(CORNERS);
     rect(minX, minY, maxX, maxY);
     pop();
