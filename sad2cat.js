@@ -107,8 +107,17 @@ function mousePressed()
 {
     if (button.mouseOver())
     {
-        console.log("button pressed");
+        const caturl = "https://api.thecatapi.com/v1/images/search";
+        loadJSON(caturl, getRandomCatPic);
     }
+}
+
+
+function getRandomCatPic(data)
+{
+    let catdata = data[0];
+    console.log(catdata);
+    window.open(catdata.url);
 }
 
 
@@ -203,6 +212,7 @@ function drawVideo()
     }
 
     imageMode(CORNER);
+
     image(capture, 0, 0, captureWidth, captureHeight);
 
     let positions = tracker.getCurrentPosition();
