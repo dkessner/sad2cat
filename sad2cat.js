@@ -17,25 +17,31 @@ function setup()
 {
     createCanvas(w, h*2);
 
+    setupCapture();
+    setupTracker();
+    setupEmotion();
+    setupEmojis();
+}
+
+
+function setupCapture()
+{
     capture = createCapture(VIDEO);
     capture.elt.setAttribute('playsinline', '');
     capture.size(w, h);
     capture.hide();
-
-    tracker = new clm.tracker();
-    tracker.init();
-    tracker.start(capture.elt);
-
-    initializeEmotion();
-
-    emojis.happy = loadImage("pix/emoji_happy.png");
-    emojis.sad = loadImage("pix/emoji_sad.png");
-    emojis.surprised = loadImage("pix/emoji_surprised.png");
-    emojis.angry = loadImage("pix/emoji_angry.png");
 }
 
 
-function initializeEmotion()
+function setupTracker()
+{
+    tracker = new clm.tracker();
+    tracker.init();
+    tracker.start(capture.elt);
+}
+
+
+function setupEmotion()
 {
     // from clmtracker example clm_emotiondetection.html
 
@@ -50,6 +56,15 @@ function initializeEmotion()
 
     classifier = new emotionClassifier();
     classifier.init(emotionModel);
+}
+
+
+function setupEmojis()
+{
+    emojis.happy = loadImage("pix/emoji_happy.png");
+    emojis.sad = loadImage("pix/emoji_sad.png");
+    emojis.surprised = loadImage("pix/emoji_surprised.png");
+    emojis.angry = loadImage("pix/emoji_angry.png");
 }
 
 
