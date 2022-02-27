@@ -57,6 +57,7 @@ function draw()
 {
     background(0);
 
+    imageMode(CORNER);
     image(capture, 0, 0, w, h);
 
     let positions = tracker.getCurrentPosition();
@@ -65,12 +66,14 @@ function draw()
     if (!classifier) return;
     let cp = tracker.getCurrentParameters();
     let emotionArray = classifier.meanPredict(cp);
+    if (!emotionArray) return;
+
     drawEmotionText(emotionArray);
 
-    image(emojis.happy, 0, height/2);
-    image(emojis.sad, 150, height/2);
-    image(emojis.surprised, 300, height/2);
-    image(emojis.angry, 450, height/2);
+    let emotion = getBestEmotion(emotionArray);
+
+    imageMode(CENTER);
+    image(emojis[emotion], width/2, height*.75);
 }
 
 
