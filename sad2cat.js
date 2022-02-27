@@ -99,16 +99,16 @@ function draw()
     let emotionArray = classifier.meanPredict(cp);
     if (!emotionArray) return;
 
-    drawEmotionText(emotionArray);
+    drawDebugText(emotionArray);
 
     let emotion = getBestEmotion(emotionArray);
 
     imageMode(CENTER);
-    image(emojis[emotion], width/2, height*.75);
-
-    fill(255);
+    image(emojis[emotion], width/2, height*.65);
     textAlign(CENTER);
-    text(deviceType(), width/2, height*.9);
+    textFont("monospace");
+    textSize(20);
+    text(emotion, width/2, height*.8);
 }
 
 
@@ -142,24 +142,21 @@ function drawVideo()
 }
 
  
-function drawEmotionText(emotionArray)
+function drawDebugText(emotionArray)
 {
-    // black box
+    let x = width-150;
+    let y = height-300;
 
-    noStroke();
-    fill(0);
-    rectMode(CORNER);
-    rect(width-125, 0, 150, 150);
+    // device
+
+    fill(255);
+    textAlign(LEFT);
+    textSize(12);
+    text(deviceType(), x, y+=25);
 
     // emotion values
 
     if (!emotionArray) return;
-
-    fill(255);
-    textAlign(LEFT);
-
-    let x = width-100;
-    let y = 0;
 
     for (let em of emotionArray)
         text(em.emotion + " " + em.value.toFixed(2), x, y+=25);
