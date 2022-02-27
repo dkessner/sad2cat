@@ -21,7 +21,8 @@ let button = {};
 function setup() 
 {
     createMetaTag();
-    createCanvas(window.innerWidth, window.innerHeight);
+
+    createCanvas(windowWidth, windowHeight);
 
     setupCapture();
     setupTracker();
@@ -33,7 +34,7 @@ function setup()
 
 function windowResized()
 {
-    resizeCanvas(window.innerWidth, window.innerHeight);
+    resizeCanvas(windowWidth, windowHeight);
     setupButton();
 }
 
