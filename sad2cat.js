@@ -92,21 +92,7 @@ function draw()
 {
     background(0);
 
-    imageMode(CORNER);
-
-    push();
-
-    if (videoFullWidth === true)
-        image(capture, 0, 0, width, captureHeight * width/captureWidth);
-    else
-    {
-        translate(width/2 - captureWidth/2, 0);
-        image(capture, 0, 0, captureWidth, captureHeight);
-    }
-
-    let positions = tracker.getCurrentPosition();
-    drawBoundingBox(positions);
-    pop();
+    drawVideo();
 
     if (!classifier) return;
     let cp = tracker.getCurrentParameters();
@@ -126,6 +112,36 @@ function draw()
 }
 
 
+function drawVideo()
+{
+    // mobile: scale video to full width 
+    // desktop: translate video to center of canvas 
+    //
+    // In both cases, transformation applies to both image() and
+    // drawBoundingBox()
+
+    push();
+
+    if (videoFullWidth === true)
+    {
+        let s = width/captureWidth;
+        scale(s, s);
+    }
+    else
+    {
+        translate(width/2 - captureWidth/2, 0);
+    }
+
+    imageMode(CORNER);
+    image(capture, 0, 0, captureWidth, captureHeight);
+
+    let positions = tracker.getCurrentPosition();
+    drawBoundingBox(positions);
+
+    pop();
+}
+
+ 
 function drawEmotionText(emotionArray)
 {
     // black box
@@ -192,15 +208,8 @@ function drawBoundingBox(positions)
     stroke(0, 255, 0);
     noFill();
 
-    push();
-    if (videoFullWidth === true)
-    {
-        let s = width/captureWidth;
-        scale(s, s);
-    }
     rectMode(CORNERS);
     rect(minX, minY, maxX, maxY);
-    pop();
 }
 
 
