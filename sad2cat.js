@@ -15,7 +15,7 @@ let h = 480;
 
 function setup() 
 {
-    createCanvas(w, h*2);
+    createCanvas(windowWidth, windowHeight);
 
     setupCapture();
     setupTracker();
@@ -72,8 +72,8 @@ function draw()
 {
     background(0);
 
-    imageMode(CORNER);
-    image(capture, 0, 0, w, h);
+    imageMode(CENTER);
+    image(capture, width/2, h/2, w, h);
 
     let positions = tracker.getCurrentPosition();
     drawBoundingBox(positions);
@@ -156,7 +156,14 @@ function drawBoundingBox(positions)
 
     stroke(0, 255, 0);
     noFill();
+
+
+    // hack: set origin to upper left corner of video 
+    // (positioned at top-center)
+    push();
+    translate(width/2-w/2, 0); 
     rectMode(CORNERS);
     rect(minX, minY, maxX, maxY);
+    pop();
 }
 
