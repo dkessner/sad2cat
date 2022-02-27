@@ -1,5 +1,7 @@
 # sad2cat
 
+convert your sad face into a cat photo
+
 [live site](https://dkessner.github.io/sad2cat/)
 
 ## Inspiration 
