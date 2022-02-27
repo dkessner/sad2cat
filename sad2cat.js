@@ -128,6 +128,7 @@ function drawEmotionText(emotionArray)
     if (!emotionArray) return;
 
     fill(255);
+    textAlign(LEFT);
 
     let x = width-100;
     let y = 0;
