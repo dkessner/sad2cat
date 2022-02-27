@@ -14,6 +14,8 @@ let captureHeight = 480;
 
 let videoFullWidth = (deviceType() === "mobile");
 
+let emotion = "";
+
 
 function setup() 
 {
@@ -93,22 +95,72 @@ function draw()
     background(0);
 
     drawVideo();
+    drawEmotion();
+    drawButton();
+}
 
+
+function drawEmotion()
+{
     if (!classifier) return;
     let cp = tracker.getCurrentParameters();
     let emotionArray = classifier.meanPredict(cp);
     if (!emotionArray) return;
 
-    drawDebugText(emotionArray);
+    emotion = getBestEmotion(emotionArray);
 
-    let emotion = getBestEmotion(emotionArray);
+    drawDebugText(emotionArray);
 
     imageMode(CENTER);
     image(emojis[emotion], width/2, height*.65);
+
+    fill(255);
     textAlign(CENTER);
     textFont("monospace");
     textSize(20);
-    text(emotion, width/2, height*.8);
+    text(emotion, width/2, height*.78);
+}
+
+
+function drawButton()
+{
+    let x = width/2;
+    let y = height * .85;
+    let w = 200;
+    let h = 50;
+
+    let mouseOver = (x-w/2 < mouseX && mouseX < x+w/2 &&
+                     y-h/2 < mouseY && mouseY < y+h/2);
+
+    if (emotion === "sad")
+    {
+        fill(0, 255, 0);
+
+        if (mouseOver)
+        {
+            strokeWeight(5);
+            stroke(255);
+        }
+        else
+            noStroke();
+    }
+    else
+    {
+        fill(128);
+    }
+
+    rectMode(CENTER);
+    rect(x, y, w, h, 20);
+
+    if (emotion === "sad")
+    {
+        textAlign(CENTER, CENTER);
+        textSize(20);
+        fill(0);
+        stroke(0);
+        strokeWeight(1);
+        text("I need a cat!", x, y);
+    }
 }
 
 
