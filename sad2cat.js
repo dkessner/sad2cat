@@ -117,7 +117,7 @@ function mousePressed()
     {
         catimg = null;
     }
-    else if (button.mouseOver())
+    else if (emotion === "sad" && button.mouseOver())
     {
         const caturl = "https://api.thecatapi.com/v1/images/search";
         loadJSON(caturl, getRandomCatPic);
