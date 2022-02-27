@@ -15,6 +15,7 @@ let captureHeight = 480;
 let videoFullWidth = (deviceType() === "mobile");
 
 let emotion = "";
+let button = {};
 
 
 function setup() 
@@ -26,12 +27,14 @@ function setup()
     setupTracker();
     setupEmotion();
     setupEmojis();
+    setupButton();
 }
 
 
 function windowResized()
 {
     resizeCanvas(window.innerWidth, window.innerHeight);
+    setupButton();
 }
 
 
@@ -100,6 +103,15 @@ function draw()
 }
 
 
+function mousePressed()
+{
+    if (button.mouseOver())
+    {
+        console.log("button pressed");
+    }
+}
+
+
 function drawEmotion()
 {
     if (!classifier) return;
@@ -109,7 +121,7 @@ function drawEmotion()
 
     emotion = getBestEmotion(emotionArray);
 
-    drawDebugText(emotionArray);
+    //drawDebugText(emotionArray);
 
     imageMode(CENTER);
     image(emojis[emotion], width/2, height*.65);
@@ -122,21 +134,27 @@ function drawEmotion()
 }
 
 
+function setupButton()
+{
+    button.x = width/2;
+    button.y = height*.85;
+    button.w = 200;
+    button.h = 50;
+
+    button.mouseOver = function() { 
+        return this.x-this.w/2 < mouseX && mouseX < this.x+this.w/2 &&
+               this.y-this.h/2 < mouseY && mouseY < this.y+this.h/2;
+    }
+}
+
+
 function drawButton()
 {
-    let x = width/2;
-    let y = height * .85;
-    let w = 200;
-    let h = 50;
-
-    let mouseOver = (x-w/2 < mouseX && mouseX < x+w/2 &&
-                     y-h/2 < mouseY && mouseY < y+h/2);
-
     if (emotion === "sad")
     {
         fill(0, 255, 0);
 
-        if (mouseOver)
+        if (button.mouseOver())
         {
             strokeWeight(5);
             stroke(255);
@@ -150,7 +168,7 @@ function drawButton()
     }
 
     rectMode(CENTER);
-    rect(x, y, w, h, 20);
+    rect(button.x, button.y, button.w, button.h, 20);
 
     if (emotion === "sad")
     {
@@ -159,7 +177,7 @@ function drawButton()
         fill(0);
         stroke(0);
         strokeWeight(1);
-        text("I need a cat!", x, y);
+        text("I need a cat!", button.x, button.y);
     }
 }
 
