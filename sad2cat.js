@@ -9,15 +9,14 @@ let classifier;
 
 let emojis = {};
 
-let w = 640; 
-let h = 480;
+let captureWidth = 640;
+let captureHeight = 480;
 
 
 function setup() 
 {
     createMetaTag();
     createCanvas(window.innerWidth, window.innerHeight);
-    //createCanvas(windowWidth, windowHeight);
 
     setupCapture();
     setupTracker();
@@ -47,7 +46,7 @@ function setupCapture()
 {
     capture = createCapture(VIDEO);
     capture.elt.setAttribute('playsinline', '');
-    capture.size(w, h);
+    capture.size(captureWidth, captureHeight);
     capture.hide();
 }
 
@@ -91,8 +90,8 @@ function draw()
 {
     background(0);
 
-    imageMode(CENTER);
-    image(capture, width/2, h/2, w, h);
+    imageMode(CORNER);
+    image(capture, 0, 0, width, captureHeight * width/captureWidth);
 
     let positions = tracker.getCurrentPosition();
     drawBoundingBox(positions);
@@ -176,11 +175,9 @@ function drawBoundingBox(positions)
     stroke(0, 255, 0);
     noFill();
 
-
-    // hack: set origin to upper left corner of video 
-    // (positioned at top-center)
     push();
-    translate(width/2-w/2, 0); 
+    let s = width/captureWidth;
+    scale(s, s);
     rectMode(CORNERS);
     rect(minX, minY, maxX, maxY);
     pop();
