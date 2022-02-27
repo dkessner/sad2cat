@@ -15,12 +15,31 @@ let h = 480;
 
 function setup() 
 {
-    createCanvas(windowWidth, windowHeight);
+    createMetaTag();
+    createCanvas(window.innerWidth, window.innerHeight);
+    //createCanvas(windowWidth, windowHeight);
 
     setupCapture();
     setupTracker();
     setupEmotion();
     setupEmojis();
+}
+
+
+function windowResized()
+{
+    resizeCanvas(window.innerWidth, window.innerHeight);
+}
+
+
+function createMetaTag() 
+{
+    let meta = createElement('meta');
+    meta.attribute('name', 'viewport');
+    meta.attribute('content', 'user-scalable=no,initial-scale=1,maximum-scale=1,minimum-scale=1,width=device-width,height=device-height');
+
+    let head = select('head');
+    meta.parent(head);
 }
 
 
