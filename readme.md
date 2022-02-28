@@ -2,7 +2,7 @@
 
 convert your sad face into a cat photo
 
-[live site](https://dkessner.github.io/sad2cat/)
+## [live site](https://dkessner.github.io/sad2cat/)
 
 This project uses [p5.js](https://p5js.org/) together with the
 [clmtrackr](https://www.auduno.com/clmtrackr) open source face tracking
@@ -28,8 +28,7 @@ using p5.js, face tracking, and web APIs.
 
 - [clmtrackr (Javascript face tracking library)](https://www.auduno.com/clmtrackr)
 
-- [The Cat API - Cats as a Service](https://thecatapi.com/)
-
+- [The Cat API - Cats as a Service](https://thecatapi.com/
 - [my p5 examples (Darren Kessner)](https://dkessner.github.io/p5_examples/)
 
 
